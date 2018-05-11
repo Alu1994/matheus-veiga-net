@@ -1,0 +1,21 @@
+﻿@{
+    using (var testDBConnection = new perfilCurricularDAL.perfilCurricularContext())
+    {
+        if (!Request.Url.AbsolutePath.Equals("/Error"))
+        {
+            try
+            {
+                testDBConnection.Database.Connection.Open();
+            }
+            catch
+            {
+                <script>
+                    $(document).ready(function () {
+                        url = "/Error?ErrorType=DB";
+                        $(location).attr("href", url);
+                    });
+                </script>
+            }
+        }
+    }
+}

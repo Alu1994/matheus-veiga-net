@@ -1,0 +1,192 @@
+﻿@font-face {
+    font-family: 'Adorable';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Adorable'), url('../fonts/MLSJN.woff') format('woff'), url('../fonts/Adorable.ttf') format('truetype');
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    /*max-width: 280px;*/
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+.dotList {
+    padding-left: 30px;
+    margin-bottom: 0px;
+}
+.conteudo {
+    padding-left: 30px;
+}
+
+.spanExcluirItem
+{
+    cursor: pointer;
+}
+
+.spanAdicionarItem
+{
+    cursor: pointer;
+}
+
+.spanExcluirItem .fa-trash-o {
+    font-size: 27px;
+    border-radius: 50%;
+    padding: 5px;
+    position: relative;
+    top: 3px;
+    border: 2px solid #68217A;
+}
+
+.spanExcluirItem .fa-trash-o:hover {
+    background-color: #3f9db8;
+}
+
+.spanAdicionarItem .fa-plus {
+    font-size: 27px;
+    border-radius: 50%;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 4px;
+    padding-bottom: 2px;
+    position: relative;
+    top: 3px;
+    border: 2px solid #68217A;
+}
+
+.spanAdicionarItem .fa-plus:hover {
+    background-color: #3f9db8;
+}
+
+input#fieldsEdit {
+    resize: horizontal;
+            
+    padding: 5px 15px;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+    background: #fff;
+    border: 1px solid #68217A;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+
+
+    width: 100%;
+    color: black;
+}
+
+textarea#fieldsEdit {
+    resize: horizontal;
+            
+    padding: 5px 15px;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+    background: #fff;
+    border: 1px solid #68217A;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    resize: vertical;
+
+    width: 100%;
+    color: black;
+}
+
+select#fieldsEdit {
+    resize: horizontal;
+            
+    padding: 6px 15px;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+    background: #fff;
+    border: 1px solid #68217A;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+
+    width: 100%;
+    color: black;
+}
+
+.itemsCurriculo {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 225px;
+    background: url(../images/bg.png) repeat;
+    border-radius: 4px;
+    padding-left:10px;
+}
+
+label {
+    color: #68217A;
+    font-weight:bold;
+}
+
+#divInteressePrincipal {
+    font-weight:bold;
+    color:#68217A;
+}
+
+#divProficienciaPrincipal {
+    font-weight:bold;
+    color:#68217A;
+}
+
+
+.table .row .col-md-4 .fa-circle-o {
+    color: #68217A;
+    border-radius: 50%;
+    position: absolute;
+    top: 7px;
+}
+
+.table .row .col-md-4 a {
+    font-size: 20px;
+    color: #68217A;
+    margin-left:15px;
+}

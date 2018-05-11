@@ -1,0 +1,88 @@
+﻿<div class="main-wrapper">
+
+    <section class="section summary-section">
+        <h2 class="section-title"><i class="fa fa-user"></i>Perfil de Carreira</h2>
+        <div class="summary">
+            <p>
+                @*Formado em Tecnologia em Banco de Dados; Experiência em Desenvolvimento de sistemas Desktop C# WPF, Web com ASP.NET MVC, ASP Clássico, Javascript e JQuery; Desenvolvimento de projetos, Administração e Monitoramento de Banco de dados Microsoft SQL Server.*@
+                @Model.perfilCarreira
+            </p>
+        </div><!--//summary-->
+    </section><!--//section-->
+
+    <section class="section experiences-section">
+        <h2 class="section-title"><i class="fa fa-briefcase"></i>Experiências</h2>
+        @{
+            int contador = 0;
+            foreach (var item in Model.experiencia)
+            {
+                contador++;
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">@item.cargo</h3>
+                            <div class="time">
+                                @item.anoInicio @{
+                                    var anoFim = "- Atual";
+                                    if (item.anoFim != null)
+                                    {
+                                        anoFim = string.Format("- {0}", item.anoFim);
+                                    }
+                                    @anoFim
+                                    item.descricao = item.descricao.Replace("\n", "");
+                                }
+                            </div>
+                        </div><!--//upper-row-->
+                        <div class="company">@item.empresa, @item.localidadeEmpresa</div>
+                    </div><!--//meta-->
+                    <div id="testeinner@{@contador}" class="details">
+                        <script>
+                            contadorJS = "@contador";
+                            descricaoJS = formatInnerHtml("@item.descricao");
+                            jQuery('#testeinner' + contadorJS).html(descricaoJS);
+                        </script>
+                    </div><!--//details-->
+                </div><!--//item-->
+            }
+        }
+    </section><!--//section-->
+
+    <section class="section projects-section">
+        <h2 class="section-title"><i class="fa fa-archive"></i>Projetos</h2>
+        <div class="intro">
+            <p>@Model.introProjeto</p>
+        </div><!--//intro-->
+        @{
+            foreach (var item in Model.projeto)
+            {
+                <div class="item">
+                    <span class="project-title">
+                        <a href="#hook">@item.nomeProjeto</a>
+                    </span> -
+                    <span class="project-tagline">
+                        @item.descricaoProjeto
+                    </span>
+                </div><!--//item-->
+            }
+        }
+    </section><!--//section-->
+
+    <section class="skills-section section">
+        <h2 class="section-title"><i class="fa fa-rocket"></i>Skills &amp; Proficiência</h2>
+        <div class="skillset">
+            @{
+                foreach (var item in Model.proficiencia)
+                {
+                    <div class="item">
+                        <h3 class="level-title">@item.descricao</h3>
+                        <div class="level-bar">
+                            <div class="level-bar-inner" data-level="@item.porcentagem%" style="width: @item.porcentagem%;">
+                            </div>
+                        </div><!--//level-bar-->
+                    </div><!--//item-->
+                }
+            }
+        </div>
+    </section><!--//skills-section-->
+
+</div><!--//main-body-->

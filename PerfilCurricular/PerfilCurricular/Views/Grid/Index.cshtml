@@ -1,0 +1,252 @@
+﻿@model List<PerfilCurricular.Models.Curriculo>
+
+@{
+    ViewBag.Title = "Grid";
+}
+<style>
+
+    /*body {
+        font-family: Arial;
+        font-size: 10pt;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        border: 1px solid #ccc;
+    }*/
+
+        /*table th {
+            background-color: #F7F7F7;
+            color: #333;
+            font-weight: bold;
+        }*/
+
+    table th, table td {
+        padding: 5px;
+        border: 1px solid #000000;
+    }
+    .tableHeader {
+        background-color: #68217A;
+        color:white;
+        font-weight:bold;
+    }
+</style>
+
+<h2 style="margin-bottom:100px;">
+    Grid
+</h2>
+
+<script type="text/javascript" language="javascript">
+    (function ($) {
+        $.fn.Scrollable = function (options) {
+            var defaults = {
+                ScrollHeight: 300,
+                Width: 0
+            };
+            var options = $.extend(defaults, options);
+            return this.each(function () {
+                var grid = $(this).get(0);
+                var gridWidth = grid.offsetWidth;
+                var gridHeight = grid.offsetHeight;
+                var headerCellWidths = new Array();
+                for (var i = 0; i < grid.getElementsByTagName("TH").length; i++) {
+                    headerCellWidths[i] = grid.getElementsByTagName("TH")[i].offsetWidth;
+                }
+                grid.parentNode.appendChild(document.createElement("div"));
+                var parentDiv = grid.parentNode;
+
+                var table = document.createElement("table");
+                for (i = 0; i < grid.attributes.length; i++) {
+                    if (grid.attributes[i].specified && grid.attributes[i].name != "id") {
+                        table.setAttribute(grid.attributes[i].name, grid.attributes[i].value);
+                    }
+                }
+                table.style.cssText = grid.style.cssText;
+                table.style.width = gridWidth + "px";
+                table.appendChild(document.createElement("tbody"));
+                table.getElementsByTagName("tbody")[0].appendChild(grid.getElementsByTagName("TR")[0]);
+                var cells = table.getElementsByTagName("TH");
+
+                var gridRow = grid.getElementsByTagName("TR")[0];
+                for (var i = 0; i < cells.length; i++) {
+                    var width;
+                    if (headerCellWidths[i] > gridRow.getElementsByTagName("TD")[i].offsetWidth) {
+                        width = headerCellWidths[i];
+                    }
+                    else {
+                        width = gridRow.getElementsByTagName("TD")[i].offsetWidth;
+                    }
+                    cells[i].style.width = parseInt(width - 3) + "px";
+                    gridRow.getElementsByTagName("TD")[i].style.width = parseInt(width - 3) + "px";
+                }
+                parentDiv.removeChild(grid);
+
+                var dummyHeader = document.createElement("div");
+                dummyHeader.appendChild(table);
+                parentDiv.appendChild(dummyHeader);
+                if (options.Width > 0) {
+                    gridWidth = options.Width;
+                }
+                var scrollableDiv = document.createElement("div");
+                if (parseInt(gridHeight) > options.ScrollHeight) {
+                    gridWidth = parseInt(gridWidth) + 17;
+                }
+                scrollableDiv.style.cssText = "overflow:auto;height:" + options.ScrollHeight + "px;width:" + gridWidth + "px";
+                scrollableDiv.appendChild(grid);
+                parentDiv.appendChild(scrollableDiv);
+            });
+        };
+    })(jQuery);
+
+    $(document).ready(function () {
+        $("#clearButton").click(function () {
+            $("#testeClear").empty();
+            $("#testeClear").css('visibility', 'hidden');
+            $("#divPrincipalCurriculo").css('background-color', 'white');
+
+
+            //data: "Curriculo=" + $("#id").val() + "&id=" + valor,
+            var returnoJson;
+            $.ajax({
+                url: "/Grid/GetJsonCurriculo",
+                type: "post",
+                async: false,
+                success: function (data) {
+                    console.log(data);
+                    returnoJson = data;
+                }
+            });
+
+            var obj = JSON.parse(returnoJson);
+            var gridContent = "";
+
+            for (var i = 0; i < obj.length; i++) {
+                gridContent += "<tr>";
+
+                var htmlRadio = "<td scope='col' style='width:20px;'><input type='radio' tag='" + obj[i].id + "' name='radioCurriculo' /></td>";
+
+                var htmlTds = "<td style='width: 120px;'><input type='text' value='"
+                htmlTds += obj[i].nomeCompleto;
+                htmlTds += "' style='background-color: rgba(0,0,0,0.0);' readonly /></td>";
+
+                htmlTds += "<td style='width: 120px;'><input type='text' value='"
+                htmlTds += obj[i].email;
+                htmlTds += "' style='background-color: rgba(0,0,0,0.0);' readonly /></td>";
+
+                htmlTds += "<td style='width: 120px;'><input type='text' value='"
+                htmlTds += obj[i].profissao;
+                htmlTds += "' style='background-color: rgba(0,0,0,0.0);' readonly /></td>";
+
+                htmlTds += "<td style='width: 120px;'><input type='text' value='"
+                htmlTds += obj[i].introProjeto;
+                htmlTds += "' style='background-color: rgba(0,0,0,0.0);' readonly /></td>";
+
+                htmlTds += "<td style='width: 120px;'><input type='text' value='"
+                htmlTds += obj[i].linkedinDisplay;
+                htmlTds += "' style='background-color: rgba(0,0,0,0.0);' readonly /></td>";
+
+                htmlTds += "<td style='width: 120px;'><input type='text' value='"
+                htmlTds += obj[i].linkedin;
+                htmlTds += "' style='background-color: rgba(0,0,0,0.0);' readonly /></td>";
+
+                htmlTds += "<td style='width: 120px;'><input type='text' value='"
+                htmlTds += obj[i].perfilCarreira;
+                htmlTds += "' style='background-color: rgba(0,0,0,0.0);' readonly /></td>";
+
+                //htmlTds += "<td style='width: 120px;'><input type='text' value='"
+                //htmlTds += obj[i].perfilCarreira;
+                //htmlTds += "' style='background-color: rgba(0,0,0,0.0);' readonly /></td>";
+
+                gridContent += htmlRadio + htmlTds;
+                gridContent += "</tr>";
+            }
+
+            window.setTimeout("$('#testeClear').css('visibility', 'visible');", 4000);
+            window.setTimeout("$('#divPrincipalCurriculo').css('background-color', 'rgba(0,0,0,0.0)')", 4000);
+            delayInnerHTML($("#testeClear"), gridContent);
+        });
+
+        $('#GridView1').Scrollable({
+            ScrollHeight: 270
+        });
+    });
+
+    function delayInnerHTML(obj, content) {
+        $(obj).append(content);
+    }
+
+    var radios = jQuery("input[type='radio']");
+    radios.filter(":checked");
+</script>
+
+<button id="clearButton">Clear</button>
+
+<div id="divPrincipalCurriculo" style="overflow-y: hidden; overflow-x: auto; min-width: 100px; max-width: 1010px;">
+    <div style="overflow-y: hidden; overflow-x: auto; height: 320px;"> <!-- Soma do Tamanho dos Campos + 18px -->
+        <table border="1" class="grid" cellspacing="0" id="GridView1" rules="all" style="border-collapse: collapse;">
+            <thead>
+                <tr class="tableHeader">
+                    <td scope="col" style="max-width: 21px; min-width: 21px; width: 21px;">
+
+                    </td>
+                    @{
+                        var displayNameAttribute = "";
+                        foreach (var prop in typeof(PerfilCurricular.Models.Curriculo).GetProperties())
+                        {
+                            var attrs = prop.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), true);
+                            if (attrs.Length > 0)
+                            {
+                                displayNameAttribute = (attrs[0] as System.ComponentModel.DataAnnotations.DisplayAttribute).Name;
+                            }
+                            if (!string.IsNullOrWhiteSpace(displayNameAttribute) && displayNameAttribute.ToLower() != "id")
+                            {
+                                <td scope="col" style="width: 120px;">
+                                    @displayNameAttribute
+                                </td>
+                            }
+                            displayNameAttribute = string.Empty;
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody id="testeClear">
+                @{
+                    foreach(var item in Model)
+                    {
+                        <tr>
+                            <td scope="col" style="width:20px;">
+                                <input type="radio" tag="@item.id" name="radioCurriculo" />
+                            </td>
+                            <td style="width: 120px;">
+                                <input type="text" value="@item.nomeCompleto" style="background-color: rgba(0,0,0,0.0);" readonly />
+                            </td>
+                            <td style="width: 120px;">
+                                <input type="text" value="@item.email" style="background-color: rgba(0,0,0,0.0);" readonly />
+                            </td>
+                            <td style="width: 120px;">
+                                <input type="text" value="@item.profissao" style="background-color: rgba(0,0,0,0.0);" readonly />
+                            </td>
+                            <td style="width: 120px;">
+                                <input type="text" value="@item.introProjeto" style="background-color: rgba(0,0,0,0.0);" readonly />
+                            </td>
+                            <td style="width: 120px;">
+                                <input type="text" value="@item.linkedinDisplay" style="background-color: rgba(0,0,0,0.0);" readonly />
+                            </td>
+                            <td style="width: 120px;">
+                                <input type="text" value="@item.linkedin" style="background-color: rgba(0,0,0,0.0);" readonly />
+                            </td>
+                            <td style="width: 120px;">
+                                <input type="text" value="@item.perfilCarreira" style="background-color: rgba(0,0,0,0.0);" readonly />
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*<div style="position: absolute; z-index: 3000; background-color: rgba(0,0,0,0.3); width: 1900px; height: 600px; top: 80px; left: 10px;border-radius:5px;">
+
+</div>*@

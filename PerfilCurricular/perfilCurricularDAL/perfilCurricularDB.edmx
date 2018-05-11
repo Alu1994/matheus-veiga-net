@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PerfilCurricularDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="curriculo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nomeCompleto" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="profissao" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="perfilCarreira" Type="varchar(max)" Nullable="false" />
+          <Property Name="linkedinDisplay" Type="varchar" MaxLength="255" />
+          <Property Name="linkedin" Type="varchar" MaxLength="255" />
+          <Property Name="introProjeto" Type="varchar" MaxLength="100" />
+          <Property Name="foto" Type="varchar" MaxLength="255" />
+          <Property Name="Login" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="experiencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cargo" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="anoInicio" Type="int" Nullable="false" />
+          <Property Name="anoFim" Type="int" />
+          <Property Name="empresa" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="localidadeEmpresa" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="descricao" Type="varchar(max)" Nullable="false" />
+          <Property Name="Curriculo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="formacao">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="curso" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="instituicaoEnsino" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="anoInicio" Type="int" Nullable="false" />
+          <Property Name="anoFim" Type="int" />
+          <Property Name="Curriculo" Type="int" Nullable="false" />
+          <Property Name="graduacao" Type="bit" />
+        </EntityType>
+        <EntityType Name="interesse">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Curriculo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="lingua">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nivel" Type="int" Nullable="false" />
+          <Property Name="Curriculo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="senha" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="alteracao" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="nivel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="proficiencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="porcentagem" Type="int" Nullable="false" />
+          <Property Name="Curriculo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="projeto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nomeProjeto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descricaoProjeto" Type="varchar(max)" Nullable="false" />
+          <Property Name="Curriculo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="telefone">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numero" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ddd" Type="char" MaxLength="2" />
+          <Property Name="Curriculo" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_curriculo_login">
+          <End Role="login" Type="Self.login" Multiplicity="1" />
+          <End Role="curriculo" Type="Self.curriculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="login">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="curriculo">
+              <PropertyRef Name="Login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_experiencia_curriculo1">
+          <End Role="curriculo" Type="Self.curriculo" Multiplicity="1" />
+          <End Role="experiencia" Type="Self.experiencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="experiencia">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_formacao_curriculo">
+          <End Role="curriculo" Type="Self.curriculo" Multiplicity="1" />
+          <End Role="formacao" Type="Self.formacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="formacao">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_interesse_curriculo">
+          <End Role="curriculo" Type="Self.curriculo" Multiplicity="1" />
+          <End Role="interesse" Type="Self.interesse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="interesse">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_lingua_curriculo">
+          <End Role="curriculo" Type="Self.curriculo" Multiplicity="1" />
+          <End Role="lingua" Type="Self.lingua" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lingua">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_lingua_nivel">
+          <End Role="nivel" Type="Self.nivel" Multiplicity="1" />
+          <End Role="lingua" Type="Self.lingua" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nivel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lingua">
+              <PropertyRef Name="Nivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_proficiencia_curriculo">
+          <End Role="curriculo" Type="Self.curriculo" Multiplicity="1" />
+          <End Role="proficiencia" Type="Self.proficiencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proficiencia">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_projeto_curriculo1">
+          <End Role="curriculo" Type="Self.curriculo" Multiplicity="1" />
+          <End Role="projeto" Type="Self.projeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="projeto">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_telefone_curriculo1">
+          <End Role="curriculo" Type="Self.curriculo" Multiplicity="1" />
+          <End Role="telefone" Type="Self.telefone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="telefone">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PerfilCurricularDBModelStoreContainer">
+          <EntitySet Name="curriculo" EntityType="Self.curriculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="experiencia" EntityType="Self.experiencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="formacao" EntityType="Self.formacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="interesse" EntityType="Self.interesse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lingua" EntityType="Self.lingua" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="nivel" EntityType="Self.nivel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="proficiencia" EntityType="Self.proficiencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="projeto" EntityType="Self.projeto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="telefone" EntityType="Self.telefone" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_curriculo_login" Association="Self.FK_curriculo_login">
+            <End Role="login" EntitySet="login" />
+            <End Role="curriculo" EntitySet="curriculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_experiencia_curriculo1" Association="Self.FK_experiencia_curriculo1">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="experiencia" EntitySet="experiencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_formacao_curriculo" Association="Self.FK_formacao_curriculo">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="formacao" EntitySet="formacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_interesse_curriculo" Association="Self.FK_interesse_curriculo">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="interesse" EntitySet="interesse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_lingua_curriculo" Association="Self.FK_lingua_curriculo">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="lingua" EntitySet="lingua" />
+          </AssociationSet>
+          <AssociationSet Name="FK_lingua_nivel" Association="Self.FK_lingua_nivel">
+            <End Role="nivel" EntitySet="nivel" />
+            <End Role="lingua" EntitySet="lingua" />
+          </AssociationSet>
+          <AssociationSet Name="FK_proficiencia_curriculo" Association="Self.FK_proficiencia_curriculo">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="proficiencia" EntitySet="proficiencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_projeto_curriculo1" Association="Self.FK_projeto_curriculo1">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="projeto" EntitySet="projeto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_telefone_curriculo1" Association="Self.FK_telefone_curriculo1">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="telefone" EntitySet="telefone" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PerfilCurricularDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="perfilCurricularContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="experiencia" EntityType="PerfilCurricularDBModel.experiencia" />
+          <EntitySet Name="projeto" EntityType="PerfilCurricularDBModel.projeto" />
+          <EntitySet Name="proficiencia" EntityType="PerfilCurricularDBModel.proficiencia" />
+          <EntitySet Name="telefone" EntityType="PerfilCurricularDBModel.telefone" />
+          <EntitySet Name="formacao" EntityType="PerfilCurricularDBModel.formacao" />
+          <EntitySet Name="lingua" EntityType="PerfilCurricularDBModel.lingua" />
+          <EntitySet Name="nivel" EntityType="PerfilCurricularDBModel.nivel" />
+          <AssociationSet Name="FK_lingua_nivel" Association="PerfilCurricularDBModel.FK_lingua_nivel">
+            <End Role="nivel" EntitySet="nivel" />
+            <End Role="lingua" EntitySet="lingua" />
+          </AssociationSet>
+          <EntitySet Name="interesse" EntityType="PerfilCurricularDBModel.interesse" />
+          <EntitySet Name="login" EntityType="PerfilCurricularDBModel.login" />
+          <EntitySet Name="curriculo" EntityType="PerfilCurricularDBModel.curriculo" />
+          <AssociationSet Name="FK_curriculo_login" Association="PerfilCurricularDBModel.FK_curriculo_login">
+            <End Role="login" EntitySet="login" />
+            <End Role="curriculo" EntitySet="curriculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_experiencia_curriculo1" Association="PerfilCurricularDBModel.FK_experiencia_curriculo1">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="experiencia" EntitySet="experiencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_formacao_curriculo" Association="PerfilCurricularDBModel.FK_formacao_curriculo">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="formacao" EntitySet="formacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_interesse_curriculo" Association="PerfilCurricularDBModel.FK_interesse_curriculo">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="interesse" EntitySet="interesse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_lingua_curriculo" Association="PerfilCurricularDBModel.FK_lingua_curriculo">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="lingua" EntitySet="lingua" />
+          </AssociationSet>
+          <AssociationSet Name="FK_proficiencia_curriculo" Association="PerfilCurricularDBModel.FK_proficiencia_curriculo">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="proficiencia" EntitySet="proficiencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_projeto_curriculo1" Association="PerfilCurricularDBModel.FK_projeto_curriculo1">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="projeto" EntitySet="projeto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_telefone_curriculo1" Association="PerfilCurricularDBModel.FK_telefone_curriculo1">
+            <End Role="curriculo" EntitySet="curriculo" />
+            <End Role="telefone" EntitySet="telefone" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="experiencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cargo" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="anoInicio" Type="Int32" Nullable="false" />
+          <Property Name="anoFim" Type="Int32" />
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="localidadeEmpresa" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="descricao" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Curriculo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="curriculo1" Relationship="PerfilCurricularDBModel.FK_experiencia_curriculo1" FromRole="experiencia" ToRole="curriculo" />
+        </EntityType>
+        <EntityType Name="projeto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nomeProjeto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descricaoProjeto" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Curriculo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="curriculo1" Relationship="PerfilCurricularDBModel.FK_projeto_curriculo1" FromRole="projeto" ToRole="curriculo" />
+        </EntityType>
+        <EntityType Name="proficiencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="porcentagem" Type="Int32" Nullable="false" />
+          <Property Name="Curriculo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="curriculo1" Relationship="PerfilCurricularDBModel.FK_proficiencia_curriculo" FromRole="proficiencia" ToRole="curriculo" />
+        </EntityType>
+        <EntityType Name="telefone">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numero" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ddd" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Curriculo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="curriculo1" Relationship="PerfilCurricularDBModel.FK_telefone_curriculo1" FromRole="telefone" ToRole="curriculo" />
+        </EntityType>
+        <EntityType Name="formacao">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="curso" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="instituicaoEnsino" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="anoInicio" Type="Int32" Nullable="false" />
+          <Property Name="anoFim" Type="Int32" />
+          <Property Name="Curriculo" Type="Int32" Nullable="false" />
+          <Property Name="graduacao" Type="Boolean" />
+          <NavigationProperty Name="curriculo1" Relationship="PerfilCurricularDBModel.FK_formacao_curriculo" FromRole="formacao" ToRole="curriculo" />
+        </EntityType>
+        <EntityType Name="lingua">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nivel" Type="Int32" Nullable="false" />
+          <Property Name="Curriculo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="nivel1" Relationship="PerfilCurricularDBModel.FK_lingua_nivel" FromRole="lingua" ToRole="nivel" />
+          <NavigationProperty Name="curriculo1" Relationship="PerfilCurricularDBModel.FK_lingua_curriculo" FromRole="lingua" ToRole="curriculo" />
+        </EntityType>
+        <EntityType Name="nivel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="lingua" Relationship="PerfilCurricularDBModel.FK_lingua_nivel" FromRole="nivel" ToRole="lingua" />
+        </EntityType>
+        <Association Name="FK_lingua_nivel">
+          <End Type="PerfilCurricularDBModel.nivel" Role="nivel" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.lingua" Role="lingua" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nivel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lingua">
+              <PropertyRef Name="Nivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="interesse">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Curriculo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="curriculo1" Relationship="PerfilCurricularDBModel.FK_interesse_curriculo" FromRole="interesse" ToRole="curriculo" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="senha" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="alteracao" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="curriculo" Relationship="PerfilCurricularDBModel.FK_curriculo_login" FromRole="login" ToRole="curriculo" />
+        </EntityType>
+        <EntityType Name="curriculo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nomeCompleto" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="profissao" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="perfilCarreira" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="linkedinDisplay" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="linkedin" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="introProjeto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="foto" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Login" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="login1" Relationship="PerfilCurricularDBModel.FK_curriculo_login" FromRole="curriculo" ToRole="login" />
+          <NavigationProperty Name="experiencia" Relationship="PerfilCurricularDBModel.FK_experiencia_curriculo1" FromRole="curriculo" ToRole="experiencia" />
+          <NavigationProperty Name="formacao" Relationship="PerfilCurricularDBModel.FK_formacao_curriculo" FromRole="curriculo" ToRole="formacao" />
+          <NavigationProperty Name="interesse" Relationship="PerfilCurricularDBModel.FK_interesse_curriculo" FromRole="curriculo" ToRole="interesse" />
+          <NavigationProperty Name="lingua" Relationship="PerfilCurricularDBModel.FK_lingua_curriculo" FromRole="curriculo" ToRole="lingua" />
+          <NavigationProperty Name="proficiencia" Relationship="PerfilCurricularDBModel.FK_proficiencia_curriculo" FromRole="curriculo" ToRole="proficiencia" />
+          <NavigationProperty Name="projeto" Relationship="PerfilCurricularDBModel.FK_projeto_curriculo1" FromRole="curriculo" ToRole="projeto" />
+          <NavigationProperty Name="telefone" Relationship="PerfilCurricularDBModel.FK_telefone_curriculo1" FromRole="curriculo" ToRole="telefone" />
+        </EntityType>
+        <Association Name="FK_curriculo_login">
+          <End Type="PerfilCurricularDBModel.login" Role="login" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.curriculo" Role="curriculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="login">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="curriculo">
+              <PropertyRef Name="Login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_experiencia_curriculo1">
+          <End Type="PerfilCurricularDBModel.curriculo" Role="curriculo" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.experiencia" Role="experiencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="experiencia">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_formacao_curriculo">
+          <End Type="PerfilCurricularDBModel.curriculo" Role="curriculo" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.formacao" Role="formacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="formacao">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_interesse_curriculo">
+          <End Type="PerfilCurricularDBModel.curriculo" Role="curriculo" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.interesse" Role="interesse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="interesse">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_lingua_curriculo">
+          <End Type="PerfilCurricularDBModel.curriculo" Role="curriculo" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.lingua" Role="lingua" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lingua">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_proficiencia_curriculo">
+          <End Type="PerfilCurricularDBModel.curriculo" Role="curriculo" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.proficiencia" Role="proficiencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proficiencia">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_projeto_curriculo1">
+          <End Type="PerfilCurricularDBModel.curriculo" Role="curriculo" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.projeto" Role="projeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="projeto">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_telefone_curriculo1">
+          <End Type="PerfilCurricularDBModel.curriculo" Role="curriculo" Multiplicity="1" />
+          <End Type="PerfilCurricularDBModel.telefone" Role="telefone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curriculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="telefone">
+              <PropertyRef Name="Curriculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PerfilCurricularDBModelStoreContainer" CdmEntityContainer="perfilCurricularContext">
+          <EntitySetMapping Name="experiencia">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.experiencia">
+              <MappingFragment StoreEntitySet="experiencia">
+                <ScalarProperty Name="Curriculo" ColumnName="Curriculo" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="localidadeEmpresa" ColumnName="localidadeEmpresa" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+                <ScalarProperty Name="anoFim" ColumnName="anoFim" />
+                <ScalarProperty Name="anoInicio" ColumnName="anoInicio" />
+                <ScalarProperty Name="cargo" ColumnName="cargo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="projeto">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.projeto">
+              <MappingFragment StoreEntitySet="projeto">
+                <ScalarProperty Name="Curriculo" ColumnName="Curriculo" />
+                <ScalarProperty Name="descricaoProjeto" ColumnName="descricaoProjeto" />
+                <ScalarProperty Name="nomeProjeto" ColumnName="nomeProjeto" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="proficiencia">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.proficiencia">
+              <MappingFragment StoreEntitySet="proficiencia">
+                <ScalarProperty Name="Curriculo" ColumnName="Curriculo" />
+                <ScalarProperty Name="porcentagem" ColumnName="porcentagem" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="telefone">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.telefone">
+              <MappingFragment StoreEntitySet="telefone">
+                <ScalarProperty Name="Curriculo" ColumnName="Curriculo" />
+                <ScalarProperty Name="ddd" ColumnName="ddd" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="formacao">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.formacao">
+              <MappingFragment StoreEntitySet="formacao">
+                <ScalarProperty Name="graduacao" ColumnName="graduacao" />
+                <ScalarProperty Name="Curriculo" ColumnName="Curriculo" />
+                <ScalarProperty Name="anoFim" ColumnName="anoFim" />
+                <ScalarProperty Name="anoInicio" ColumnName="anoInicio" />
+                <ScalarProperty Name="instituicaoEnsino" ColumnName="instituicaoEnsino" />
+                <ScalarProperty Name="curso" ColumnName="curso" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lingua">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.lingua">
+              <MappingFragment StoreEntitySet="lingua">
+                <ScalarProperty Name="Curriculo" ColumnName="Curriculo" />
+                <ScalarProperty Name="Nivel" ColumnName="Nivel" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nivel">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.nivel">
+              <MappingFragment StoreEntitySet="nivel">
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="interesse">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.interesse">
+              <MappingFragment StoreEntitySet="interesse">
+                <ScalarProperty Name="Curriculo" ColumnName="Curriculo" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="login">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.login">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="alteracao" ColumnName="alteracao" />
+                <ScalarProperty Name="senha" ColumnName="senha" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="curriculo">
+            <EntityTypeMapping TypeName="PerfilCurricularDBModel.curriculo">
+              <MappingFragment StoreEntitySet="curriculo">
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="introProjeto" ColumnName="introProjeto" />
+                <ScalarProperty Name="linkedin" ColumnName="linkedin" />
+                <ScalarProperty Name="linkedinDisplay" ColumnName="linkedinDisplay" />
+                <ScalarProperty Name="perfilCarreira" ColumnName="perfilCarreira" />
+                <ScalarProperty Name="profissao" ColumnName="profissao" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nomeCompleto" ColumnName="nomeCompleto" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

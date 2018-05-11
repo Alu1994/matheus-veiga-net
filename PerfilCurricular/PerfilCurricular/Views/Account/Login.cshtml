@@ -1,0 +1,75 @@
+﻿@model PerfilCurricular.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Perfil Currícular - Log In";
+}
+
+<!--SCRIPTS-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script src="/Scripts/pageScripts/login.js"></script>
+<link href="/Content/styleLogin.css" rel="stylesheet" type="text/css">
+
+<div>
+    <div id="wrapperLogin">
+        <form class="login-form" id="gradienteLoginMatheus">
+            <div class="header">
+                <h1 style="text-shadow: none;">Perfil Currícular Matheus</h1>
+                <img class="imagemLogin" src="/images/Matheus_Rosto.jpg" alt="">
+            </div>
+        </form>
+    </div>
+
+    <div id="wrapper">
+
+        <div class="user-icon"></div>
+        <div class="pass-icon"></div>
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form", role = "form", id = "Logar", name = "Logar" }))
+        {
+            string action = Url.Action("Login", "Account");
+            @Html.AntiForgeryToken()
+
+            <div class="header">
+                <h1>Login</h1>
+            </div>
+            <div class="content">
+
+                @Html.TextBoxFor(m => m.UserName, new { @class = "input username" })
+                @Html.ValidationMessageFor(m => m.UserName)
+
+                @Html.PasswordFor(m => m.Password, new { @class = "input password" })
+                @Html.ValidationMessageFor(m => m.Password)
+
+                <div class="form-group">
+                    <div class="col-md-12" style="float:left;">
+                        @Html.ValidationSummary(true)
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <input type="submit" id="Login" name="Login" value="Login" class="button" style="margin-left:10px;" />
+                <input type="button" id="visitante" name="visitante" value="Visitante" class="button" onclick="visitantelogon('@action');" />
+            </div>
+        }
+
+        @*<div class="col-md-4">
+                <section id="socialLoginForm">
+                    @Html.Partial("_ExternalLoginsListPartial", new { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl })
+                </section>
+            </div>*@<div class="col-md-4">
+            <section id="socialLoginForm">
+            </section>
+        </div>
+        <div class="container body-content">
+            <hr id="linhaLogin" />
+            <footer id="footerInsideLogin">
+                <p>&copy; @DateTime.Now.Year - Perfil Currícular - MVC Application</p>
+            </footer>
+        </div>
+    </div>
+</div>
+<div class="gradient"></div>   	
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

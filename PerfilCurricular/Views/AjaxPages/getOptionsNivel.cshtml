@@ -1,0 +1,11 @@
+﻿@{
+    using (var nivelContext = new perfilCurricularDAL.perfilCurricularContext())
+    {
+        var listaNiveis = nivelContext.nivel.ToList();
+
+        foreach (var item in listaNiveis)
+        {
+            <option value="@item.id">@item.descricao</option>
+        }
+    }
+}
