@@ -1,0 +1,140 @@
+﻿@model PerfilCurricular.Models.Curriculo
+
+<div class="sidebar-wrapper">
+
+    <div class="profile-container">
+        @{
+            if (ViewBag.CanEdit)
+            {
+                <p style="font-style: italic; text-decoration: underline;font-size:16px;">
+                    @Html.ActionLink("Editar Perfil", "Editar/" + Model.id.ToString(), new { @style = "font-weight: bolder;" })
+                </p>
+            }
+        }
+        <img class="profile" src="/images/@Model.nomeFoto" alt="Matheus" title="Matheus">
+        <h1 id="nomeCompleto" class="name">@Model.nomeCompleto</h1>
+        <h3 class="tagline">@Model.profissao</h3>
+    </div><!--//profile-container-->
+
+    <div class="contact-container container-block">
+        <ul class="list-unstyled contact-list">
+            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: @Model.email">@Model.email</a></li>
+            <li class="phone">
+                <i class="fa fa-phone"></i>
+                <a href="#">
+                    tel:
+                    @{
+                        int telefoneCount = 0;
+                        foreach (var item in Model.telefone)
+                        {
+                            if (telefoneCount > 0)
+                            {
+                                var bar = " / ";
+                                @bar
+                            }
+
+                            if (item.ddd != null && !string.IsNullOrWhiteSpace(item.ddd))
+                            {
+                                var ddd = string.Format("({0}) ", item.ddd);
+                                @ddd
+                            }
+                            <span class="phoneNumber">
+                                @item.numero
+                            </span>
+                            telefoneCount++;
+                        }
+                    }
+                </a>
+            </li>
+            <li class="linkedin"><i class="fa fa-linkedin"></i><a href="@Model.linkedin" target="_blank">@Model.linkedinDisplay</a></li>
+        </ul>
+    </div><!--//contact-container-->
+
+    <div class="education-container container-block">
+        <h2 class="container-block-title">Formação</h2>
+
+        @{
+            foreach (var item in Model.formacao)
+            {
+                if(item.graduacao.Value)
+                { 
+                    <div class="item">
+                        <h4 class="degree">@item.curso</h4>
+                        <h5 class="meta">@item.instituicaoEnsino</h5>
+                        <div class="time">
+                            @item.anoInicio
+                            @{
+                                var anoFimFormacao = "- Cursando";
+                                if (item.anoFim != null)
+                                {
+                                    anoFimFormacao = string.Format("- {0}", item.anoFim);
+                                }
+                            }
+                            @anoFimFormacao
+                        </div>
+                    </div><!--//item-->
+                }
+            }
+        }
+
+    </div><!--//education-container-->
+
+    <div class="education-container container-block">
+        <h2 class="container-block-title">Curso</h2>
+
+        @{
+            foreach (var item in Model.formacao)
+            {
+                if (!item.graduacao.Value)
+                {
+                    <div class="item">
+                        <h4 class="degree">@item.curso</h4>
+                        <h5 class="meta">@item.instituicaoEnsino</h5>
+                        <div class="time">
+                            @item.anoInicio
+                            @{
+                                var anoFimFormacao = "- Cursando";
+                                if (item.anoFim != null)
+                                {
+                                    anoFimFormacao = string.Empty;
+                                    
+                                    if (item.anoInicio != item.anoFim)
+                                    {
+                                        anoFimFormacao = string.Format("- {0}", item.anoFim);
+                                    }
+                                }
+                            }
+                            @anoFimFormacao
+                        </div>
+                    </div><!--//item-->
+                }
+            }
+        }
+
+    </div><!--//course-container-->
+
+    <div class="languages-container container-block">
+        <h2 class="container-block-title">Língua</h2>
+        <ul class="list-unstyled interests-list">
+            @{
+                foreach (var item in Model.lingua)
+                {
+                    <li>@item.descricao <span class="lang-desc">(@item.nivel.descricao)</span></li>
+                }
+            }
+        </ul>
+    </div><!--//languages-->
+
+    <div class="interests-container container-block">
+        <h2 class="container-block-title">Interesse</h2>
+        <ul class="list-unstyled interests-list">
+            @{
+                foreach (var item in Model.interesse)
+                {
+                    <li>@item.descricao</li>
+                }
+            }
+        </ul>
+    </div><!--//interests-->
+
+</div><!--//sidebar-body-->

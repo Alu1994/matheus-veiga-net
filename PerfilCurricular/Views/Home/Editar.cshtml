@@ -1,0 +1,462 @@
+﻿@model PerfilCurricular.Models.Curriculo
+
+@{
+    ViewBag.Title = "Perfil Currícular - Editar Perfil";
+}
+
+<script src="/Scripts/pageScripts/editarCurriculo.js"></script>
+
+@using (Html.BeginForm("AlterarCurriculo", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-edit-submit", role = "form", id = "Logar", name = "Logar" }))
+{
+    <div class="main-wrapper" style="margin-top:30px;padding-right: 35px;">
+        <h2 class="section-title" style="font-size:30px;text-align:center;"><i class="fa fa-pencil-square-o" style="width: 45px; height: 45px; font-size: 30px; "></i>Editar Perfil</h2>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div style="float: right;" class="inputUsername">
+                    <img id="fotoPerfil" class="profile" src="/images/@Model.nomeFoto" alt="Matheus" title="Matheus" width="100" height="100" style="border-radius: 50%; border: 4px solid #68217A;cursor:pointer;" />
+                    <input type="file" id="foto" name="foto" style="display:none;">
+                </div>
+            </div>
+        </div>
+
+        <div id="Curriculo">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4" style="float: left; padding-top: 15px;">
+                        <div class="inputUsername">
+                            @Html.HiddenFor(m => m.id, new { @class = "input username" })
+
+                            @Html.LabelFor(m => m.nomeCompleto, new { @style = "min-width:100px;max-width:200px;", @id = "fieldsEdit" }): 
+                            @Html.TextBoxFor(m => m.nomeCompleto, new { @class = "input username", @id = "fieldsEdit" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" style="float: left; padding-top: 15px;">
+                        <div class="inputUsername">
+                            @Html.LabelFor(m => m.email, new { @style = "min-width:100px;max-width:200px;", @id = "fieldsEdit" }): 
+                            @Html.TextBoxFor(m => m.email, new { @class = "input username", @id = "fieldsEdit" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" style="float: left; padding-top: 15px;">
+                        <div class="inputUsername">
+                            @Html.LabelFor(m => m.profissao, new { @style = "min-width:100px;max-width:200px;", @id = "fieldsEdit" })
+                            @Html.TextBoxFor(m => m.profissao, new { @class = "input username", @id = "fieldsEdit" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4" style="float: left; padding-top: 15px;">
+                        <div class="inputUsername">
+                            @Html.LabelFor(m => m.introProjeto, new { @style = "min-width:100px;max-width:200px;", @id = "fieldsEdit" })
+                            @Html.TextBoxFor(m => m.introProjeto, new { @class = "input username", @id = "fieldsEdit" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" style="float: left; padding-top: 15px;">
+                        <div class="inputUsername">
+                            @Html.LabelFor(m => m.linkedinDisplay, new { @style = "min-width:100px;max-width:200px;", @id = "fieldsEdit" })
+                            @Html.TextBoxFor(m => m.linkedinDisplay, new { @class = "input username", @id = "fieldsEdit" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" style="float: left; padding-top: 15px;">
+                        <div class="inputUsername">
+                            @Html.LabelFor(m => m.linkedin, new { @style = "min-width:100px;max-width:200px;", @id = "fieldsEdit" })
+                            @Html.TextBoxFor(m => m.linkedin, new { @class = "input username", @id = "fieldsEdit" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4" style="float: left; padding-top: 15px;">
+                        <div class="inputUsername">
+                            @Html.LabelFor(m => m.perfilCarreira, new { @style = "min-width:100px;max-width:200px;", @id = "fieldsEdit" })
+                            @Html.TextAreaFor(m => m.perfilCarreira, new { @class = "input username", @id = "fieldsEdit" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:20px;">
+            <div class="col-md-2" style="float:left;">
+                <span class="section-title" style="font-size: 17px; font-weight: bold; cursor: pointer;" onclick="criarInteresse();">Interesses</span>
+            </div>
+            <div class="col-md-4" style="float:left;">
+                <span class="section-title">
+                    <i id="arrowInteresse" class="fa fa-chevron-down" style="padding-top: 6px; margin-left: 10px; cursor: pointer;" onclick="criarInteresse();"></i>
+                </span>
+            </div>
+        </div>
+        <div id="divInteresseToggle">
+            <p><span id="adcInteresse" title="Adicionar" class="spanAdicionarItem" onclick="adicionarInteresse();"><i class="fa fa-plus"></i></span></p>
+            <div id="divInteressePrincipal" class="itemsCurriculo">
+                @{
+                    int countInteresse = 0;
+
+                    foreach (var item in Model.interesse)
+                    {
+                        string divInteresse = "divInteresse_" + countInteresse.ToString();
+
+                        <div class="row" id="@divInteresse">
+                            <div class="col-md-12" style="float: left; padding-top: 5px;">
+                                <div>
+                                    <label>Descrição:</label>
+                                    <div class="Interesse" style="width:100%;max-width:none;">
+                                        <input type="hidden" id="id" name="id" value="@item.id" class="input usernameInteresse" />
+
+                                        @Html.TextBox("descricao", item.descricao, new { @id = "fieldsEdit", @class = "input usernameInteresse", @style = "max-width:none;width:80%;", @tag = "1" })
+
+                                        <span class="spanExcluirItem" title="Excluir" onclick='ExcluirInteresse("@divInteresse", @item.id);'><i class='fa fa-trash-o'></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        countInteresse++;
+                    }
+                    <input type="hidden" id="interesseCount" value="@countInteresse" />
+                }
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-2" style="float:left;">
+                <span class="section-title" style="font-size: 17px; font-weight: bold;cursor:pointer;" onclick="criarProficiencia();">Proficiências</span>
+            </div>
+            <div class="col-md-4" style="float:left;">
+                <span class="section-title">
+                    <i id="arrowProficiencia" class="fa fa-chevron-down" style="padding-top: 6px;margin-left: 10px;cursor:pointer;" onclick="criarProficiencia();"></i>
+                </span>
+            </div>
+        </div>
+        <div id="divProficienciaToggle">
+            <p><span id="adcProficiencia" title="Adicionar" class="spanAdicionarItem" onclick="adicionarProficiencia();"><i class="fa fa-plus"></i></span></p>
+            <div id="divProficienciaPrincipal" class="itemsCurriculo">
+                @{
+                int countProficiencia = 0;
+
+                foreach (var item in Model.proficiencia)
+                {
+                    string divProficiencia = "divProficiencia_" + countProficiencia.ToString();
+
+            <div class="row" id="@divProficiencia">
+                <div class="col-md-12" style="float: left; padding-top: 5px;">
+                    <div class="Proficiencia">
+                        <div style="max-width: none; width: 40%; float: left;">
+                            <label>Descrição:</label>
+                            <input type="hidden" id="id" name="id" value="@item.id" class="input usernameProficiencia" />
+                            @Html.TextBox("descricao", item.descricao, new { @id = "fieldsEdit", @class = "input usernameProficiencia", @style = "max-width:none;width:99%;", @tag = "1" })
+                        </div>
+
+                        <div style="max-width: none; width: 40%; float: left; margin-left: 10px;">
+                            <label>%:</label>
+                            @Html.TextBox("porcentagem", item.porcentagem, new { @id = "fieldsEdit", @class = "input usernameProficiencia", @maxlength = "3", @oninput = "maxLengthCheck(this);", @onblur = "maxLengthCheck(this);", @type = "number", @style = "max-width:none;width:99%;", @tag = "1" })
+                        </div>
+                        <span class="spanExcluirItem" style="float:left;" title="Excluir" onclick='ExcluirProficiencia("@divProficiencia", @item.id);'><i class='fa fa-trash-o'></i></span>
+                    </div>
+                </div>
+            </div>
+                    countProficiencia++;
+                }
+            <input type="hidden" id="proficienciaCount" value="@countProficiencia" />
+                }
+            </div>
+
+
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col-md-2" style="float:left;">
+                <span class="section-title" style="font-size: 17px; font-weight: bold; cursor: pointer;" onclick="criarTelefone();">Telefones</span>
+            </div>
+            <div class="col-md-4" style="float:left;">
+                <span class="section-title">
+                    <i id="arrowTelefone" class="fa fa-chevron-down" style="padding-top: 6px; margin-left: 10px; cursor: pointer;" onclick="criarTelefone();"></i>
+                </span>
+            </div>
+        </div>
+        <div id="divTelefoneToggle">
+            <p><span id="adcTelefone" title="Adicionar" class="spanAdicionarItem" onclick="adicionarTelefone();"><i class="fa fa-plus"></i></span></p>
+            <div id="divTelefonePrincipal" class="itemsCurriculo">
+                @{
+                int countTelefone = 0;
+
+                foreach (var item in Model.telefone)
+                {
+                    string divTelefone = "divTelefone_" + countTelefone.ToString();
+
+                    <div class="row" id="@divTelefone">
+                        <div class="col-md-12" style="float: left; padding-top: 5px;">
+                            <div class="Telefone">
+                                <div style="max-width: none; width: 20%; float: left;">
+                                    <label style="width: 70%;">DDD:</label>
+                                    @Html.TextBox("ddd", item.ddd, new { @id = "fieldsEdit", @class = "input usernameTelefone", @maxlength = "2", @oninput = "maxLengthCheck(this);", @onblur = "maxLengthCheck(this);", @type = "number", @style = "max-width:none;width:90%;", @tag = "0" })
+                                </div>
+
+                                <div style="max-width: none; width: 30%; float: left; margin-left: 10px;">
+                                    <label>Número:</label>
+                                    <input type="hidden" id="id" name="id" value="@item.id" class="input usernameTelefone" />
+                                    @Html.TextBox("numero", item.numero, new { @id = "fieldsEdit", @class = "input usernameTelefone", @maxlength = "9", @oninput = "maxLengthCheck(this);", @onblur = "maxLengthCheck(this);", @type = "number", @style = "max-width:none;width:99%;", @tag = "1" })
+                                </div>
+
+                                <span class="spanExcluirItem" style="float:left;" title="Excluir" onclick='ExcluirTelefone("@divTelefone", @item.id);'><i class='fa fa-trash-o'></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    countTelefone++;
+                }
+                <input type="hidden" id="telefoneCount" value="@countTelefone" />
+                }
+            </div>
+        </div>
+        
+        <div class="row" style="margin-top:10px;">
+            <div class="col-md-2" style="float:left;">
+                <span class="section-title" style="font-size:17px;font-weight:bold;cursor:pointer;" onclick="criarProjeto();">Projetos</span>
+            </div>
+            <div class="col-md-4" style="float:left;">
+                <span class="section-title">
+                    <i id="arrowProjeto" class="fa fa-chevron-down" style="padding-top: 6px; margin-left: 10px; cursor: pointer;" onclick="criarProjeto();"></i>
+                </span>
+            </div>
+        </div>
+        <div id="divProjetoToggle">
+            <p><span id="adcProjeto" title="Adicionar" class="spanAdicionarItem" onclick="adicionarProjeto();"><i class="fa fa-plus"></i></span></p>
+            <div id="divProjetoPrincipal" class="itemsCurriculo">
+                @{
+                int countProjeto = 0;
+
+                foreach (var item in Model.projeto)
+                {
+                    string divProjeto = "divProjeto_" + countProjeto.ToString();
+
+                    <div class="row" id="@divProjeto">
+                        <div class="col-md-12" style="float: left; padding-top: 5px;">
+                            <div class="Projeto">
+                                <div style="max-width: none; width: 90%; float: left;">
+                                    <label>Nome Projeto:</label>
+                                    <input type="hidden" id="id" name="id" value="@item.id" class="input usernameProjeto" />
+                                    @Html.TextBox("nomeProjeto", item.nomeProjeto, new { @id = "fieldsEdit", @class = "input usernameProjeto", @style = "max-width:none;width:99%;", @tag = "1" })
+                                </div>
+
+                                <div style="max-width: none; width: 90%; float: left;">
+                                    <label>Descrição Projeto:</label>
+                                    @Html.TextArea("descricaoProjeto", item.descricaoProjeto, new { @id = "fieldsEdit", @class = "input usernameProjeto", @type = "text", @style = "max-width:none;width:99%;", @tag = "1" })
+                                </div>
+                                <span class="spanExcluirItem" style="float:left;" title="Excluir" onclick='ExcluirProjeto("@divProjeto", @item.id);'><i class='fa fa-trash-o'></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    countProjeto++;
+                }
+                <input type="hidden" id="projetoCount" value="@countProjeto" />
+                }
+            </div>
+        </div>
+        
+        <div class="row" style="margin-top:10px;">
+            <div class="col-md-2" style="float:left;">
+                <span class="section-title" style="font-size: 17px; font-weight: bold; cursor: pointer;" onclick="criarLingua();">Linguas</span>
+            </div>
+            <div class="col-md-4" style="float:left;">
+                <span class="section-title">
+                    <i id="arrowLingua" class="fa fa-chevron-down" style="padding-top: 6px; margin-left: 10px; cursor: pointer;" onclick="criarLingua();"></i>
+                </span>
+            </div>
+        </div>
+        <div id="divLinguaToggle">
+            <p><span id="adcLingua" title="Adicionar" class="spanAdicionarItem" onclick="adicionarLingua();"><i class="fa fa-plus"></i></span></p>
+            <div id="divLinguaPrincipal" class="itemsCurriculo">
+                @{
+                int countLingua = 0;
+
+                foreach (var item in Model.lingua)
+                {
+                    string divLingua = "divLingua_" + countLingua.ToString();
+
+                    <div class="row" id="@divLingua">
+                        <div class="col-md-12" style="float: left; padding-top: 5px;">
+                            <div class="Lingua">
+                                <div style="max-width: none; width: 35%; float: left;">
+                                    <label>Descrição:</label>
+                                    <input type="hidden" id="id" name="id" value="@item.id" class="input usernameLingua" />
+                                    @Html.TextBox("descricao", item.descricao, new { @id = "fieldsEdit", @class = "input usernameLingua", @style = "max-width:none;width:99%;", @tag = "1" })
+                                </div>
+
+                                <div style="max-width: none; width: 50%; float: left; margin-left: 10px;">
+                                    <label>Nível:</label>
+
+                                    <select name="nivelId" id="fieldsEdit" class="input usernameLingua" style="max-width:none;width:99%;" tag="1">
+                                        @{
+                                            foreach (SelectListItem listItem in ViewBag.NiveisDisponiveis)
+                                            {
+                                                string selectvalue = "";
+                                                if (listItem.Value == item.nivel.id.ToString())
+                                                {
+                                                    selectvalue = "selected";
+                                                }
+                                                <option value="@listItem.Value" @selectvalue>
+                                                    @listItem.Text
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <span class="spanExcluirItem" style="float:left;" title="Excluir" onclick='ExcluirLingua("@divLingua", @item.id);'><i class='fa fa-trash-o'></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    countLingua++;
+                }
+                <input type="hidden" id="linguaCount" value="@countLingua" />
+                }
+            </div>
+        </div>
+        
+        <div class="row" style="margin-top:10px;">
+            <div class="col-md-2" style="float:left;">
+                <span class="section-title" style="font-size:17px;font-weight:bold;cursor:pointer;" onclick="criarFormacao();">Formações</span>
+            </div>
+            <div class="col-md-4" style="float:left;">
+                <span class="section-title">
+                    <i id="arrowFormacao" class="fa fa-chevron-down" style="padding-top: 6px; margin-left: 10px; cursor: pointer;" onclick="criarFormacao();"></i>
+                </span>
+            </div>
+        </div>
+        <div id="divFormacaoToggle">
+            <p><span id="adcFormacao" title="Adicionar" class="spanAdicionarItem" onclick="adicionarFormacao();"><i class="fa fa-plus"></i></span></p>
+            <div id="divFormacaoPrincipal" class="itemsCurriculo">
+                @{
+                int countFormacao = 0;
+
+                foreach (var item in Model.formacao)
+                {
+                    string divFormacao = "divFormacao_" + countFormacao.ToString();
+
+                    <div class="row" id="@divFormacao">
+                        <div class="col-md-12" style="float: left; padding-top: 5px;">
+                            <fieldset style="margin-bottom:10px;">
+                                <legend></legend>
+                                <div class="Formacao">
+                                    <div style="max-width: none; width: 40%; float: left;">
+                                        <label>Descrição:</label>
+                                        <input type="hidden" id="id" name="id" value="@item.id" class="input usernameFormacao" />
+                                        @Html.TextBox("curso", item.curso, new { @id = "fieldsEdit", @class = "input usernameFormacao", @style = "max-width:none;width:99%;", @tag = "1" })
+                                    </div>
+                                    <div style="max-width: none; width: 40%; float: left;">
+                                        <label>Instituição:</label>
+                                        @Html.TextBox("instituicaoEnsino", item.instituicaoEnsino, new { @id = "fieldsEdit", @class = "input usernameFormacao", @style = "max-width:none;width:99%;", @tag = "1" })
+                                    </div>
+
+                                    <div style="max-width: none; width: 30%; float: left;">
+                                        <label>Início:</label>
+                                        @Html.TextBox("anoInicio", item.anoInicio, new { @id = "fieldsEdit", @class = "input usernameFormacao", @maxlength = "4", @oninput = "maxLengthCheck(this);", @onblur = "maxLengthCheck(this);", @type = "number", @style = "max-width:none;width:99%;", @tag = "1" })
+                                    </div>
+                                    <div style="max-width: none; width: 30%; float: left;">
+                                        <label>Fim:</label>
+                                        @Html.TextBox("anoFim", item.anoFim, new { @id = "fieldsEdit", @class = "input usernameFormacao", @maxlength = "4", @oninput = "maxLengthCheck(this);", @onblur = "maxLengthCheck(this);", @type = "number", @style = "max-width:none;width:99%;", @tag = "0" })
+                                    </div>
+                                    <div style="max-width: none; width: 30%; float: left;">
+                                        <label>Tipo:</label>
+                                        @{
+                                            string formacao = "";
+                                            string curso = "selected";
+                                            if (item.graduacao.Value)
+                                            {
+                                                formacao = "selected";
+                                                curso = "";
+                                            }
+                                        }
+                                        <select name="graduacao" id="fieldsEdit" class="input usernameLingua" style="max-width:none;width:99%;" tag="1">
+                                            <option value="">Selecione</option>
+                                            <option value="true" @formacao>Formação</option>
+                                            <option value="false" @curso>Curso</option>
+                                        </select>
+                                    </div>
+                                    <span class="spanExcluirItem" style="float:left;" title="Excluir" onclick='ExcluirFormacao("@divFormacao", @item.id);'><i class='fa fa-trash-o'></i></span>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                    </div>
+                    countFormacao++;
+                }
+                <input type="hidden" id="formacaoCount" value="@countFormacao" />
+                }
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col-md-2" style="float:left;">
+                <span class="section-title" style="font-size: 17px; font-weight: bold; cursor: pointer;" onclick="criarExperiencia();">Experiências</span>
+            </div>
+            <div class="col-md-4" style="float:left;">
+                <span class="section-title">
+                    <i id="arrowExperiencia" class="fa fa-chevron-down" style="padding-top: 6px; margin-left: 10px; cursor: pointer;" onclick="criarExperiencia();"></i>
+                </span>
+            </div>
+        </div>
+        <div id="divExperienciaToggle">
+            <p><span id="adcExperiencia" title="Adicionar" class="spanAdicionarItem" onclick="adicionarExperiencia();"><i class="fa fa-plus"></i></span></p>
+            <div id="divExperienciaPrincipal" class="itemsCurriculo">
+                @{
+                int countExperiencia = 0;
+
+                foreach (var item in Model.experiencia)
+                {
+                    string divExperiencia = "divExperiencia_" + countExperiencia.ToString();
+
+                    <div class="row" id="@divExperiencia">
+                        <div class="col-md-12" style="float: left; padding-top: 5px;">
+                            <fieldset style="margin-bottom:10px;">
+                                <legend></legend>
+                                <div class="Experiencia">
+                                    <div style="max-width: none; width: 40%; float: left;">
+                                        <label>Cargo:</label>
+                                        <input type="hidden" id="id" name="id" value="@item.id" class="input usernameExperiencia" />
+                                        @Html.TextBox("cargo", item.cargo, new { @id = "fieldsEdit", @class = "input usernameExperiencia", @style = "max-width:none;width:99%;", @tag = "1" })
+                                    </div>
+                                    <div style="max-width: none; width: 40%; float: left;">
+                                        <label>Empresa:</label>
+                                        @Html.TextBox("empresa", item.empresa, new { @id = "fieldsEdit", @class = "input usernameExperiencia", @style = "max-width:none;width:99%;", @tag = "1" })
+                                    </div>
+
+                                    <div style="max-width: none; width: 26%; float: left;">
+                                        <label>Início:</label>
+                                        @Html.TextBox("anoInicio", item.anoInicio, new { @id = "fieldsEdit", @class = "input usernameExperiencia", @maxlength = "4", @oninput = "maxLengthCheck(this);", @onblur = "maxLengthCheck(this);", @type = "number", @style = "max-width:none;width:99%;", @tag = "1" })
+                                    </div>
+                                    <div style="max-width: none; width: 26%; float: left;">
+                                        <label>Fim:</label>
+                                        @Html.TextBox("anoFim", item.anoFim, new { @id = "fieldsEdit", @class = "input usernameExperiencia", @maxlength = "4", @oninput = "maxLengthCheck(this);", @onblur = "maxLengthCheck(this);", @type = "number", @style = "max-width:none;width:99%;", @tag = "0" })
+                                    </div>
+                                    <div style="max-width: none; width: 28%; float: left;">
+                                        <label>Localidade:</label>
+                                        @Html.TextBox("localidadeEmpresa", item.localidadeEmpresa, new { @id = "fieldsEdit", @class = "input usernameExperiencia", @maxlength = "100", @oninput = "maxLengthCheck(this);", @onblur = "maxLengthCheck(this);", @style = "max-width:none;width:99%;", @tag = "1" })
+                                    </div>
+
+
+                                    <div style="max-width: none; width: 80%; float: left;">
+                                        <label>Descrição:</label>
+                                        @Html.TextArea("descricao", item.descricao, new { @id = "fieldsEdit", @class = "input usernameExperiencia", @tag = "1" })
+                                    </div>
+                                    <span class="spanExcluirItem" style="float:left;" title="Excluir" onclick='ExcluirExperiencia("@divExperiencia", @item.id);'><i class='fa fa-trash-o' style="margin-left: 5px;"></i></span>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                    </div>
+                    countExperiencia++;
+                }
+                <input type="hidden" id="experienciaCount" value="@countExperiencia" />
+                }
+            </div>
+        </div>
+
+        <div class="footer">
+            <input type="button" id="Salvar" name="Salvar" value="Salvar" class="button" style="margin-left:10px;" />
+        </div>
+    </div>
+}
